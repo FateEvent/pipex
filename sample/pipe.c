@@ -10,9 +10,11 @@
 int main(int argc, char *argv[], char *envp[])
 {
 	int		fd[2];
-	int		arr[] = {1, 2, 3, 11, 4, 5, 7, 9};
+	int		arr[] = {1, 2, 7, 11, 5, 1, 9};
 	int		arrSize = sizeof(arr) / sizeof(int);
 	int		start, end;
+	printf("%s\n", envp[3]);
+	printf("%d, %d\n", fd[0], fd[1]);
 	if (pipe(fd) == -1)
 	{
 		fprintf(stderr, "Pipe Failed");
@@ -45,7 +47,7 @@ int main(int argc, char *argv[], char *envp[])
 	if (id == 0)
 	{
 		close(fd[0]);
-		write (fd[1], &sum, sizeof(sum));
+		write(fd[1], &sum, sizeof(sum));
 		close(fd[1]);
 	}
 	else
