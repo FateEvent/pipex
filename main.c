@@ -19,12 +19,28 @@
 #include <sys/wait.h>
 #include <errno.h>
 
-void	ft_parse_execute(int fd, char *cmd, char *argv[], char *envp[])
+#include "./libft/libft.a"
+
+void	ft_cmd_exec(int fd, char *cmd, char *paths, char *envp[])
 {
-	char	**paths;
 	char	**exec_args;
-	char	*env_path;
-	char	*command;
+	char	*cmd_path;
+	int		i;
+
+	i = 0;
+	exec_args = ft_split(cmd, " ");
+	while (paths[i++])
+	{
+		cmd_path = ft_join(paths[i], cmd);
+		execve(cmd_path, exec_args, envp);
+		perror("La cata!");
+		free(command);
+	}
+	return (EXIT_FAILURE);
+}
+
+void	ft_parser(char *argv[], char *envp[], char **paths, char *env_path)
+{
 	int		i;
 
 	i = 0;
@@ -34,16 +50,6 @@ void	ft_parse_execute(int fd, char *cmd, char *argv[], char *envp[])
 			env_path = ft_strnstr(envp[i], "PATH", 4);
 	}
 	paths = ft_split(env_path, ":");
-	exec_args = ft_split(cmd, " ");
-	i = 0;
-	while (paths[i++])
-	{
-		command = ft_join(paths[i], cmd);
-		execve(command, exec_args, envp);
-		perror("La cata!");
-		free(command);
-	}
-	return (EXIT_FAILURE);
 }
 
 void	parent_process(int fd2, char *cmd2, int end[2])
@@ -55,7 +61,7 @@ void	parent_process(int fd2, char *cmd2, int end[2])
 	dup2(end[0], STDIN_FILENO);
 	close(end[1]);
 	close(fd2);
-	ft_parse_execute(fd2, cmd2, argv, envp);
+	ft_cmd_exec(fd2, argv[3], argv, envp);
 	exit(EXIT_FAILURE);
 }
 
@@ -65,11 +71,11 @@ void	child_process(int fd1, char *cmd1, int end[2])
 	dup2(end[1], STDOUT_FILENO);
 	close(end[0]);
 	close(fd1);
-	// execve function for each possible path (see below)
+	ft_cmd_exec(fd1, argv[2], argv, envp);
 	exit(EXIT_FAILURE);
 }
 
-void	pipex(int fd1, int fd2, char *cmd1, char *cmd2)
+void	pipex(int fd1, int fd2, char *argv[], char *envp[])
 {
 	int		end[2];
 	int		status;
@@ -81,27 +87,30 @@ void	pipex(int fd1, int fd2, char *cmd1, char *cmd2)
 	if (parent < 0)
 		perror("Fork: ");
 	if (parent == 0)
-		child_process(fd1, cmd1, end);
+		child_process(fd1, argv[2], end);
 	child = fork();
 	if (child < 0)
 		perror("Fork: ");
 	if (child == 0)
-		parent_process(fd2, cmd2, end);
-	close(end[0]);         // this is the parent
-	close(end[1]);         // doing nothing
-	waitpid(parent, &status, 0);  // supervising the children
-	waitpid(child, &status, 0);  // while they finish their tasks
+		parent_process(fd2, argv[3], end);
+	close(end[0]);
+	close(end[1]);
+	waitpid(parent, &status, 0);
+	waitpid(child, &status, 0);
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	int	fd1;
-	int	fd2;
+	int		fd1;
+	int		fd2;
+	char	**paths;
+	char	*env_path;
 
 	fd1 = open(argv[1], O_RDONLY);
 	fd2 = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (fd1 < 0 || fd2 < 0)
 		return (-1);
-	pipex(fd1, fd2, argv[2], argv[3]);
+	ft_parser(argv, envp, paths, env_path);
+	pipex(fd1, fd2, argv, envp);
 	return (0);
 }
