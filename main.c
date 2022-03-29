@@ -114,3 +114,5 @@ int	main(int argc, char *argv[], char *envp[])
 	pipex(fd1, fd2, argv, envp);
 	return (0);
 }
+
+https://github.com/tolmvad/pipex/tree/master/mandatory
