@@ -19,11 +19,11 @@
 #include <sys/wait.h>
 #include <errno.h>
 
-void	ft_exec(char *cmd1, char *cmd2, char *envp[])
+void	ft_parser(char *cmd, char *argv[], char *envp[])
 {
 	char	*env_path;
-	char	*paths;
-	char	*cmd_args;
+	char	**paths;
+	char	**exec_args;
 	int		i;
 
 	i = 0;
