@@ -19,18 +19,31 @@
 #include <sys/wait.h>
 #include <errno.h>
 
-void	ft_parser(char *cmd, char *argv[], char *envp[])
+void	ft_parse_execute(int fd, char *cmd, char *argv[], char *envp[])
 {
-	char	*env_path;
 	char	**paths;
 	char	**exec_args;
+	char	*env_path;
+	char	*command;
 	int		i;
 
 	i = 0;
-	env_path = envp[3];
-	paths = ft_strjoin(paths, ":");
-	cmd_args = 
-	execve
+	while (envp[i++])
+	{
+		if (ft_strnstr(envp[i], "PATH", 4))
+			env_path = ft_strnstr(envp[i], "PATH", 4);
+	}
+	paths = ft_split(env_path, ":");
+	exec_args = ft_split(cmd, " ");
+	i = 0;
+	while (paths[i++])
+	{
+		command = ft_join(paths[i], cmd);
+		execve(command, exec_args, envp);
+		perror("La cata!");
+		free(command);
+	}
+	return (EXIT_FAILURE);
 }
 
 void	parent_process(int fd2, char *cmd2, int end[2])
@@ -42,7 +55,7 @@ void	parent_process(int fd2, char *cmd2, int end[2])
 	dup2(end[0], STDIN_FILENO);
 	close(end[1]);
 	close(fd2);
-	// execve function for each possible path (see below)
+	ft_parse_execute(fd2, cmd2, argv, envp);
 	exit(EXIT_FAILURE);
 }
 
