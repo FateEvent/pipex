@@ -10,21 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_H
-# define FT_H
+#ifndef PIPEX_H
+# define PIPEX_H
 
 # include <unistd.h>
 # include <string.h>
 # include <stdlib.h>
 # include <fcntl.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <sys/stat.h>
 # include <errno.h>
 # include <stdio.h>
-
-# include "libft/libft.h"
-
-# define MAX_SIZE 2900
 
 void	print_error(char *pathname, int errnum);
 

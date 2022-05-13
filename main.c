@@ -19,8 +19,6 @@
 #include <sys/wait.h>
 #include <errno.h>
 
-#include "./libft/libft.a"
-
 void	ft_cmd_exec(int fd, char *cmd, char *paths, char *envp[])
 {
 	char	**exec_args;
@@ -109,7 +107,10 @@ int	main(int argc, char *argv[], char *envp[])
 	fd1 = open(argv[1], O_RDONLY);
 	fd2 = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (fd1 < 0 || fd2 < 0)
+	{
+		perror("La cata!");
 		return (-1);
+	}
 	ft_parser(argv, envp, paths, env_path);
 	pipex(fd1, fd2, argv, envp);
 	return (0);
