@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 21:43:57 by faventur          #+#    #+#             */
-/*   Updated: 2022/05/14 09:54:27 by faventur         ###   ########.fr       */
+/*   Updated: 2022/05/14 09:55:00 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	ft_parser(char *argv[], char *envp[], char **paths, char *env_path)
 		{
 			env_path = ft_strnstr(envp[i], "PATH", 4);
 			ft_printf(env_path);
-
 		}
 	}
 	paths = ft_split(env_path, ':');
