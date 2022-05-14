@@ -1,26 +1,58 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   libftools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/29 16:29:35 by faventur          #+#    #+#             */
-/*   Updated: 2022/03/01 11:05:13 by faventur         ###   ########.fr       */
+/*   Created: 2022/05/14 09:41:20 by faventur          #+#    #+#             */
+/*   Updated: 2022/05/14 09:43:57 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-** The strnstr() function locates the first occurrence of the null-terminated
-** string needle in the	string haystack, where no more than	len characters
-** are searched.
-** 
-** Return Value: If	needle is an empty string, haystack is returned; if
-** needle occurs nowhere in	haystack, NULL is returned; otherwise a pointer
-** to the first	character of the first occurrence of needle is returned.
-*/
+#include "pipex.h"
 
-#include "libft.h"
+void	ft_putchar_fd(char c, int fd)
+{
+	if (fd >= 0)
+		write(fd, &c, 1);
+	else
+		return ;
+}
+
+void	ft_putstr_fd(char const *str, int fd)
+{
+	if (fd >= 0 && str)
+	{
+		while (*str != '\0')
+		{
+			ft_putchar_fd(*str, fd);
+			str++;
+		}
+	}
+}
+
+void	ft_putendl_fd(char const *s, int fd)
+{
+	if (fd >= 0)
+	{
+		ft_putstr_fd(s, fd);
+		write(fd, "\n", 1);
+	}
+}
+
+size_t	ft_strlen(const char *str)
+{
+	size_t	counter;
+
+	counter = 0;
+	while (*str != '\0')
+	{
+		counter++;
+		str++;
+	}
+	return (counter);
+}
 
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {

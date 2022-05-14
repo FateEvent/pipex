@@ -5,20 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/24 10:21:03 by faventur          #+#    #+#             */
-/*   Updated: 2022/02/28 16:26:41 by faventur         ###   ########.fr       */
+/*   Created: 2022/05/14 09:44:50 by faventur          #+#    #+#             */
+/*   Updated: 2022/05/14 09:44:52 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-** The ft_strsplit() function allocates (with malloc(3)) and returns
-** an array of "fresh" null-terminated strings (and the array will
-** be null-terminated too) resulting from the splitting of the string
-** passed as a parameter based on the character c. If the allocation
-** fails, the function returns NULL.
-*/
-
-#include "libft.h"
+#include "pipex.h"
 
 static int	ft_check_charset(char c, char set)
 {

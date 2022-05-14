@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft.h                                               :+:      :+:    :+:   */
+/*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:17:19 by faventur          #+#    #+#             */
-/*   Updated: 2022/03/28 13:44:48 by faventur         ###   ########.fr       */
+/*   Updated: 2022/05/14 09:53:55 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,14 @@
 # include <sys/stat.h>
 # include <errno.h>
 # include <stdio.h>
+# include "ft_printf.h"
+
+void	ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd(char const *str, int fd);
+void	ft_putendl_fd(char const *s, int fd);
+size_t	ft_strlen(const char *str);
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
+char	**ft_split(char const *s, char c);
 
 void	print_error(char *pathname, int errnum);
 

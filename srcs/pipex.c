@@ -6,12 +6,14 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 21:43:57 by faventur          #+#    #+#             */
-/*   Updated: 2022/03/28 13:44:15 by faventur         ###   ########.fr       */
+/*   Updated: 2022/05/14 09:54:27 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+#include <stdio.h>
+/*
 void	ft_cmd_exec(int fd, char *cmd, char *paths, char *envp[])
 {
 	char	**exec_args;
@@ -25,11 +27,11 @@ void	ft_cmd_exec(int fd, char *cmd, char *paths, char *envp[])
 		cmd_path = ft_join(paths[i], cmd);
 		execve(cmd_path, exec_args, envp);
 		perror("La cata!");
-		free(command);
+		free(cmd_path);
 	}
 	return (EXIT_FAILURE);
 }
-
+*/
 void	ft_parser(char *argv[], char *envp[], char **paths, char *env_path)
 {
 	int		i;
@@ -38,9 +40,13 @@ void	ft_parser(char *argv[], char *envp[], char **paths, char *env_path)
 	while (envp[i++])
 	{
 		if (ft_strnstr(envp[i], "PATH", 4))
+		{
 			env_path = ft_strnstr(envp[i], "PATH", 4);
+			ft_printf(env_path);
+
+		}
 	}
-	paths = ft_split(env_path, ":");
+	paths = ft_split(env_path, ':');
 }
 
 void	parent_process(int fd2, char *cmd2, int end[2])
@@ -52,7 +58,7 @@ void	parent_process(int fd2, char *cmd2, int end[2])
 	close(end[1]);
 	close(fd2);
 	waitpid(-1, &status, 0);
-	ft_cmd_exec(fd2, argv[3], argv, envp);
+//	ft_cmd_exec(fd2, argv[3], argv, envp);
 	exit(EXIT_FAILURE);
 }
 
@@ -62,7 +68,7 @@ void	child_process(int fd1, char *cmd1, int end[2])
 	dup2(end[1], STDOUT_FILENO);
 	close(end[0]);
 	close(fd1);
-	ft_cmd_exec(fd1, argv[2], argv, envp);
+//	ft_cmd_exec(fd1, argv[2], argv, envp);
 	exit(EXIT_FAILURE);
 }
 
