@@ -6,34 +6,17 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 21:43:57 by faventur          #+#    #+#             */
-/*   Updated: 2022/05/14 09:55:00 by faventur         ###   ########.fr       */
+/*   Updated: 2022/05/14 12:12:00 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-#include <stdio.h>
-/*
-void	ft_cmd_exec(int fd, char *cmd, char *paths, char *envp[])
+char	*ft_parser(char *cmd, char *envp[])
 {
-	char	**exec_args;
-	char	*cmd_path;
-	int		i;
-
-	i = 0;
-	exec_args = ft_split(cmd, " ");
-	while (paths[i++])
-	{
-		cmd_path = ft_join(paths[i], cmd);
-		execve(cmd_path, exec_args, envp);
-		perror("La cata!");
-		free(cmd_path);
-	}
-	return (EXIT_FAILURE);
-}
-*/
-void	ft_parser(char *argv[], char *envp[], char **paths, char *env_path)
-{
+	char	**paths;
+	char	*exec_path;
+	char	*env_path;
 	int		i;
 
 	i = 0;
@@ -42,53 +25,73 @@ void	ft_parser(char *argv[], char *envp[], char **paths, char *env_path)
 		if (ft_strnstr(envp[i], "PATH", 4))
 		{
 			env_path = ft_strnstr(envp[i], "PATH", 4);
-			ft_printf(env_path);
+			break ;
 		}
 	}
 	paths = ft_split(env_path, ':');
+	i = 0;
+	while (paths[i++])
+	{
+		exec_path = ft_strjoin(paths[i], ft_strjoin("/", cmd));
+		if (access(exec_path, R_OK))
+			return (exec_path);
+	}
+	return (NULL);
 }
 
-void	parent_process(int fd2, char *cmd2, int end[2])
+void	parent_process(char *cmd2, int end[2], char *argv[], char *envp[])
 {
 	int	status;
 
-	dup2(fd2, STDOUT_FILENO);
 	dup2(end[0], STDIN_FILENO);
 	close(end[1]);
-	close(fd2);
+	close(end[0]);
 	waitpid(-1, &status, 0);
-//	ft_cmd_exec(fd2, argv[3], argv, envp);
+	execve(cmd2, argv, envp);
 	exit(EXIT_FAILURE);
 }
 
-void	child_process(int fd1, char *cmd1, int end[2])
+void	child_process(char *cmd1, int end[2], char *argv[], char *envp[])
 {
-	dup2(fd1, STDIN_FILENO);
 	dup2(end[1], STDOUT_FILENO);
 	close(end[0]);
-	close(fd1);
-//	ft_cmd_exec(fd1, argv[2], argv, envp);
+	close(end[1]);
 	exit(EXIT_FAILURE);
 }
 
-void	pipex(int fd1, int fd2, char *argv[], char *envp[])
+void	pipex(char *argv[], char *envp[])
 {
 	int		end[2];
 	int		status;
 	pid_t	parent;
 	pid_t	child;
+	char	*cmd1;
+	char	*cmd2;
+	char	**paths;
+	char	*env_path;
+	char	*buffer[500];
 
 	pipe(end);
 	parent = fork();
 	if (parent == -1)
 		perror("Fork: ");
 	if (parent == 0)
-		child_process(fd1, argv[2], end);
+	{
+		child_process(cmd1, end, argv, envp);
+		read(1, &buffer, 100);
+		close(end[0]);
+		cmd1 = ft_parser(argv[2], envp);
+	}
 	child = fork();
 	if (child == -1)
 		perror("Fork: ");
 	if (child == 0)
-		parent_process(fd2, argv[3], end);
+	{
+		parent_process(cmd2, end, argv, envp);
+		cmd2 = ft_parser(argv[3], envp);
+		write(0, &buffer, 100);
+		close(end[0]);
+	}
 	close(end[0]);
 	close(end[1]);
 	waitpid(parent, &status, 0);
@@ -99,8 +102,9 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	int		fd1;
 	int		fd2;
-	char	**paths;
+	char	*cmd1;
 	char	*env_path;
+	char	**cmd_args;
 
 	fd1 = open(argv[1], O_RDONLY);
 	fd2 = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
@@ -109,79 +113,13 @@ int	main(int argc, char *argv[], char *envp[])
 		perror("La cata!");
 		return (-1);
 	}
-	ft_parser(argv, envp, paths, env_path);
-	pipex(fd1, fd2, argv, envp);
+	dup2(fd1, 0);
+	dup2(fd2, 1);
+	cmd1 = ft_parser(argv[2], envp);
+	cmd_args = ft_split(argv[2], ' ');
+	execve(cmd1, cmd_args, envp);
+//	pipex(argv, envp);
+	close(fd1);
+	close(fd2);
 	return (0);
 }
-
-/*
-void	parent_process(char *cmd2, int end[2])
-{
-	int	status;
-
-	dup2(end[0], STDIN_FILENO);
-	close(end[1]);
-	waitpid(-1, &status, 0);
-	ft_cmd_exec(fd2, argv[3], argv, envp);
-	exit(EXIT_FAILURE);
-}
-
-void	child_process(char *cmd1, int end[2])
-{
-	dup2(end[1], STDOUT_FILENO);
-	close(end[0]);
-	ft_cmd_exec(fd1, argv[2], argv, envp);
-	exit(EXIT_FAILURE);
-}
-*/
-
-/*
-int	main(int argc, char *argv[], char *envp[])
-{
-	int		fd;
-	int		pipe_fd[2];
-	int		bytes_read;
-	char	*buffer;
-
-	i = 0;
-	(void) argv;
-	if (argc == 3)
-	{
-		fd = open(argv[0], O_RDONLY);
-		if (fd == -1)
-			print_error(argv[0], ENOENT);
-		if (pipe(fd) == -1)
-			print_error("La mauvaise passe", 5);
-		bytes_read = read(fd, &buffer, MAX_SIZE);
-		if (bytes_read == -1)
-			return ;
-		close(fd);
-		buffer[bytes_read] = '\0';
-
-
-
-
-
-
-
-		char	**args = {buffer, NULL};
-		execve(argv[1], args, envp);
-		return (0);
-	}
-	while (i++ < argc)
-	{
-		if (operand_checker(argv[i]) == 1)
-		{
-			open_and_write(buffer, argc, argv, i);
-			return (0);
-		}
-		else if (operand_checker(argv[i]) == 2)
-		{
-			open_and_append(buffer, argc, argv, i);
-			return (0);
-		}
-	}
-	write(1, &buffer, ft_strlen(buffer));
-	return (0);
-}
-*/
