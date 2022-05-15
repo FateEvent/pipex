@@ -6,38 +6,21 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 09:41:20 by faventur          #+#    #+#             */
-/*   Updated: 2022/05/14 09:43:57 by faventur         ###   ########.fr       */
+/*   Updated: 2022/05/15 20:33:31 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_putchar_fd(char c, int fd)
-{
-	if (fd >= 0)
-		write(fd, &c, 1);
-	else
-		return ;
-}
-
-void	ft_putstr_fd(char const *str, int fd)
+void	ft_putstr_fd(char *str, int fd)
 {
 	if (fd >= 0 && str)
 	{
-		while (*str != '\0')
+		while (*str)
 		{
-			ft_putchar_fd(*str, fd);
+			write(fd, &*str, 1);
 			str++;
 		}
-	}
-}
-
-void	ft_putendl_fd(char const *s, int fd)
-{
-	if (fd >= 0)
-	{
-		ft_putstr_fd(s, fd);
-		write(fd, "\n", 1);
 	}
 }
 
@@ -78,4 +61,31 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 		i++;
 	}
 	return (NULL);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*substr;
+	size_t	i;
+	size_t	s_len;
+
+	i = 0;
+	s_len = ft_strlen(s);
+	if (!s)
+		return (NULL);
+	if (start > s_len)
+	{
+		substr = (char *)malloc(sizeof(char) * 1);
+		if (substr == NULL)
+			return (NULL);
+		substr[0] = '\0';
+		return (substr);
+	}
+	substr = (char *)malloc(sizeof(char) * (s_len - start + 1));
+	if (substr == NULL)
+		return (NULL);
+	while (i < len && s[start] != '\0')
+		substr[i++] = s[start++];
+	substr[i] = '\0';
+	return (substr);
 }
