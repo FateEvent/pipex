@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 21:43:57 by faventur          #+#    #+#             */
-/*   Updated: 2022/05/15 20:36:11 by faventur         ###   ########.fr       */
+/*   Updated: 2022/05/15 20:47:18 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ char	*ft_parser(char *cmd, char *envp[])
 	char	*exec_path;
 	char	*env_path;
 	char	**cmd_args;
-	int		len;
 	int		i;
 
 	i = 0;
@@ -40,9 +39,7 @@ char	*ft_parser(char *cmd, char *envp[])
 	{
 		if (ft_strnstr(envp[i], "PATH", 4))
 		{
-			env_path = ft_strnstr(envp[i], "PATH", 4);
-			len = ft_strlen(ft_strnstr(envp[i], "PATH", 4)) - 5;
-			env_path = ft_substr(env_path, 5, len);
+			env_path = envp[i] + 5;
 			break ;
 		}
 	}
@@ -141,8 +138,8 @@ int	main(int argc, char *argv[], char *envp[])
 	dup2(fd1, 0);
 //	dup2(fd2, 1);
 	cmd1 = ft_parser(argv[2], envp);
-//	cmd_args = ft_split(argv[2], ' ');
-//	execve(cmd1, cmd_args, NULL);
+	cmd_args = ft_split(argv[2], ' ');
+	execve(cmd1, cmd_args, NULL);
 	pipex(argv, envp);
 	close(fd1);
 //	close(fd2);

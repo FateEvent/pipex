@@ -6,18 +6,9 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 10:49:11 by faventur          #+#    #+#             */
-/*   Updated: 2022/05/14 10:02:04 by faventur         ###   ########.fr       */
+/*   Updated: 2022/05/15 20:41:59 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*
-** The ft_strjoin() function allocates (with malloc(3)) and returns a
-** "fresh" null-terminated string resulting from the concatenation of
-** s1 and s2. If the allocation fails, the function returns a NULL
-** pointer.
-**
-** Return Value: The function returns a string.
-*/
 
 #include "pipex.h"
 

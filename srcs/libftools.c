@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 09:41:20 by faventur          #+#    #+#             */
-/*   Updated: 2022/05/15 20:33:31 by faventur         ###   ########.fr       */
+/*   Updated: 2022/05/15 20:42:28 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,31 +61,4 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 		i++;
 	}
 	return (NULL);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*substr;
-	size_t	i;
-	size_t	s_len;
-
-	i = 0;
-	s_len = ft_strlen(s);
-	if (!s)
-		return (NULL);
-	if (start > s_len)
-	{
-		substr = (char *)malloc(sizeof(char) * 1);
-		if (substr == NULL)
-			return (NULL);
-		substr[0] = '\0';
-		return (substr);
-	}
-	substr = (char *)malloc(sizeof(char) * (s_len - start + 1));
-	if (substr == NULL)
-		return (NULL);
-	while (i < len && s[start] != '\0')
-		substr[i++] = s[start++];
-	substr[i] = '\0';
-	return (substr);
 }
