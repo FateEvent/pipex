@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 21:43:57 by faventur          #+#    #+#             */
-/*   Updated: 2022/05/15 20:47:18 by faventur         ###   ########.fr       */
+/*   Updated: 2022/05/27 16:41:43 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,26 @@ void	ft_arr_freer(char **arr)
 	free(arr);
 }
 
-char	*ft_parser(char *cmd, char *envp[])
+static char	*find(char *envp[], char *str)
+{
+	char	*env_path;
+	int		i;
+
+	i = 0;
+	env_path = NULL;
+	while (envp[i])
+	{
+		if (ft_strnstr(envp[i], str, 4))
+		{
+			env_path = envp[i] + 5;
+			break ;
+		}
+		i++;
+	}
+	return (env_path);
+}
+
+char	*path_searcher(char *cmd, char *envp[])
 {
 	char	**paths;
 	char	*exec_path;
@@ -35,14 +54,7 @@ char	*ft_parser(char *cmd, char *envp[])
 
 	i = 0;
 	cmd_args = ft_split(cmd, ' ');
-	while (envp[i++])
-	{
-		if (ft_strnstr(envp[i], "PATH", 4))
-		{
-			env_path = envp[i] + 5;
-			break ;
-		}
-	}
+	env_path = find(envp, "PATH");
 	paths = ft_split(env_path, ':');
 	i = 0;
 	while (paths[i])
@@ -100,7 +112,7 @@ void	pipex(char *argv[], char *envp[])
 		child_process(cmd1, end, argv, envp);
 		read(1, &buffer, 100);
 		close(end[0]);
-		cmd1 = ft_parser(argv[2], envp);
+		cmd1 = path_searcher(argv[2], envp);
 	}
 	child = fork();
 	if (child == -1)
@@ -108,7 +120,7 @@ void	pipex(char *argv[], char *envp[])
 	if (child == 0)
 	{
 		parent_process(cmd2, end, argv, envp);
-		cmd2 = ft_parser(argv[3], envp);
+		cmd2 = path_searcher(argv[3], envp);
 		write(0, &buffer, 100);
 		close(end[0]);
 	}
@@ -137,7 +149,7 @@ int	main(int argc, char *argv[], char *envp[])
 */
 	dup2(fd1, 0);
 //	dup2(fd2, 1);
-	cmd1 = ft_parser(argv[2], envp);
+	cmd1 = path_searcher(argv[2], envp);
 	cmd_args = ft_split(argv[2], ' ');
 	execve(cmd1, cmd_args, NULL);
 	pipex(argv, envp);
