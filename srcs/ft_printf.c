@@ -6,11 +6,11 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:26 by faventur          #+#    #+#             */
-/*   Updated: 2022/03/12 13:34:29 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/06 17:56:23 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/pipex.h"
 
 int	ft_check(va_list arg_p, const char *format, int i, int *n_char)
 {

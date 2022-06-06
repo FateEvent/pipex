@@ -6,11 +6,11 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 09:44:50 by faventur          #+#    #+#             */
-/*   Updated: 2022/05/14 09:44:52 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/06 17:56:20 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../includes/pipex.h"
 
 static int	ft_check_charset(char c, char set)
 {

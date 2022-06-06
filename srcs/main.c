@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 21:43:57 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/01 11:27:17 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/06 19:07:59 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*path_searcher(char *cmd, char *envp[])
 	}
 	return (NULL);
 }
-
+/*
 void	parent_process(char *cmd2, int end[2], char *argv[], char *envp[])
 {
 	int	status;
@@ -128,32 +128,53 @@ void	pipex(char *argv[], char *envp[])
 	waitpid(parent, &status, 0);
 	waitpid(child, &status, 0);
 }
-
+*/
+/*
 int	main(int argc, char *argv[], char *envp[])
 {
-	int		fd1;
-//	int		fd2;
-	char	*cmd1;
-	char	*env_path;
-	char	**cmd_args;
+	t_var	var;
 
-	fd1 = open(argv[1], O_RDONLY);
+//	var.fd1 = open(argv[1], O_RDONLY);
+	(void)argc;
 //	fd2 = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
-/*
-	if (fd1 == -1 || fd2 == -1)
-	{
-		perror("La cata!");
-		return (-1);
-	}
-*/
-	dup2(fd1, 0);
-//	dup2(fd2, 1);
-	cmd1 = path_searcher(argv[2], envp);
-	cmd_args = ft_split(argv[2], ' ');
-	execve(cmd1, cmd_args, NULL);
-	pipex(argv, envp);
-	close(fd1);
+	var.cmd1 = path_searcher(argv[2], envp);
+	var.cmd_args = ft_split(argv[2], ' ');
+//	pipex(argv, envp);
+	close(var.fd1);
 //	close(fd2);
-//	free(cmd_args);
+//	free(var.cmd_args);
+	return (0);
+}
+*/
+int	main(int argc, char *argv[], char *envp[])
+{
+	t_var	var;
+	char	*buff;
+
+	(void)argc;
+	(void)argv;
+	(void)envp;
+	if (pipe(var.end) == -1)
+		return (1);
+	var.pid1 = fork();
+	if (var.pid1 < 0)
+		return (2);
+	if (var.pid1 == 0)
+	{
+		var.cmd_args = malloc(2 * sizeof(char *));
+		var.cmd_args[0] = "/bin/ls";
+		var.cmd_args[1] = NULL;
+		var.cmd1 = var.cmd_args[0];
+		dup2(var.end[1], STDOUT_FILENO);
+		close(var.end[0]);
+		close(var.end[1]);
+		execve(var.cmd1, var.cmd_args, NULL);
+	}
+	waitpid(var.pid1, NULL, 0);
+	buff = malloc(200);
+	read(var.end[0], buff, 200);
+	close(var.end[1]);
+	ft_printf("%s\n", buff);
+	close(var.end[0]);
 	return (0);
 }
