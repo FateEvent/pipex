@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 21:43:57 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/06 19:07:59 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/06 20:47:36 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,25 +156,24 @@ int	main(int argc, char *argv[], char *envp[])
 	(void)envp;
 	if (pipe(var.end) == -1)
 		return (1);
-	var.pid1 = fork();
-	if (var.pid1 < 0)
+	var.pid = fork();
+	if (var.pid < 0)
 		return (2);
-	if (var.pid1 == 0)
+	if (var.pid == 0)
 	{
-		var.cmd_args = malloc(2 * sizeof(char *));
-		var.cmd_args[0] = "/bin/ls";
-		var.cmd_args[1] = NULL;
-		var.cmd1 = var.cmd_args[0];
+		var.cmd_args = ft_split(argv[1], ' ');
+		var.cmd = path_searcher(var.cmd_args[0], envp);
 		dup2(var.end[1], STDOUT_FILENO);
 		close(var.end[0]);
 		close(var.end[1]);
-		execve(var.cmd1, var.cmd_args, NULL);
+		execve(var.cmd, var.cmd_args, NULL);
 	}
-	waitpid(var.pid1, NULL, 0);
-	buff = malloc(200);
-	read(var.end[0], buff, 200);
+	waitpid(var.pid, NULL, 0);
+	buff = malloc(501);
+	read(var.end[0], buff, 500);
 	close(var.end[1]);
 	ft_printf("%s\n", buff);
 	close(var.end[0]);
+	free(buff);
 	return (0);
 }
