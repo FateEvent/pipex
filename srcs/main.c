@@ -6,33 +6,21 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 21:43:57 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/07 19:44:20 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/07 22:49:18 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-
 void	parent_process(t_var var)
 {
-	char	*buff;
-	int		status;
-
-	close(var.end[0]);
+	close(var.end[1]);
 	dup2(var.end[0], STDIN_FILENO);
 	dup2(var.fd[1], STDOUT_FILENO);
 	close(var.fd[1]);
-
-	buff = malloc(501);
-	read(var.end[0], buff, 500);
-
-	close(var.end[1]);
-
-	waitpid(-1, &status, 0);
-	waitpid(-1, &status, 0);
-
-	free(buff);
-
+	close(var.end[0]);
+	waitpid(-1, &var.status, 0);
+	waitpid(-1, &var.status, 0);
 	execve(var.cmd2, var.cmd_args2, NULL);
 	exit(EXIT_FAILURE);
 }
@@ -53,19 +41,11 @@ void	parent_process(t_var var)
 */
 void	child_process(t_var var)
 {
-//	char	*buff;
-
 	close(var.end[0]);
 	dup2(var.end[1], STDOUT_FILENO);
-	close(var.end[1]);
 	dup2(var.fd[0], STDIN_FILENO);
 	close(var.fd[0]);
-
-//	buff = malloc(501);
-//	read(var.end[1], buff, 500);
-
-//	free(buff);
-
+	close(var.end[1]);
 	execve(var.cmd1, var.cmd_args1, NULL);
 	exit(EXIT_FAILURE);
 }
@@ -89,13 +69,22 @@ int	main(int argc, char *argv[], char *envp[])
 
 	(void)argc;	// check_args
 	var = get_args(argv, envp);
-	if (pipe(var.end) == -1)
-		return (1);
-	var.pid = fork();
-	if (var.pid < 0)
-		return (2);
-	if (var.pid == 0)
-		child_process(var);
-	parent_process(var);
+	var.pid[0] = fork();
+	if (var.pid[0] == 0)
+	{
+		if (pipe(var.end) == -1)
+			return (1);
+		var.pid[1] = fork();
+		if (var.pid[1] < 0)
+		{
+			close(var.end[0]);
+			close(var.end[1]);
+			return (2);
+		}
+		if (var.pid[1] == 0)
+			child_process(var);
+		parent_process(var);
+	}
+	waitpid(-1, &var.status, 0);
 	return (0);
 }
