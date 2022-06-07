@@ -6,11 +6,12 @@
 #    By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/06 18:24:32 by faventur          #+#    #+#              #
-#    Updated: 2022/06/06 18:31:02 by faventur         ###   ########.fr        #
+#    Updated: 2022/06/07 17:46:57 by faventur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = main.c ft_printf_basic.c ft_printf_utils.c ft_printf.c ft_split.c ft_strjoin.c libftools.c
+SRCS = main.c ft_split.c ft_strjoin.c libftools.c ft_path_searcher.c \
+	ft_printf_basic.c ft_printf_utils.c ft_printf.c
 
 OBJS = $(addprefix srcs/, ${SRCS:.c=.o})
 
