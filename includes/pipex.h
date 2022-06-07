@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:17:19 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/07 22:48:10 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/07 22:55:39 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,5 @@ char	*ft_strjoin(const char *s1, const char *s2);
 void	ft_arr_freer(char **arr);
 
 char	*ft_path_searcher(char *cmd, char *envp[]);
-
-void	print_error(char *pathname, int errnum);
 
 #endif

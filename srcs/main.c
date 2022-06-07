@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 21:43:57 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/07 22:49:18 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/07 23:34:00 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,14 @@ void	child_process(t_var var)
 	dup2(var.end[1], STDOUT_FILENO);
 	dup2(var.fd[0], STDIN_FILENO);
 	close(var.fd[0]);
+
+//	write(var.end[1], var.buffer, 15);
+
 	close(var.end[1]);
+
+//	var.cmd_args1[1] = "bibbidibobnbidi\nmagiki\noh";
+//	var.cmd_args1[2] = NULL;
+
 	execve(var.cmd1, var.cmd_args1, NULL);
 	exit(EXIT_FAILURE);
 }
@@ -55,7 +62,7 @@ t_var	get_args(char *av[], char *envp[])
 	t_var	var;
 
 	var.fd[0] = open(av[1], O_RDONLY);
-	var.fd[1] = open(av[4], O_WRONLY | O_CREAT);
+	var.fd[1] = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	var.cmd_args1 = ft_split(av[2], ' ');
 	var.cmd1 = ft_path_searcher(var.cmd_args1[0], envp);
 	var.cmd_args2 = ft_split(av[3], ' ');
@@ -70,6 +77,8 @@ int	main(int argc, char *argv[], char *envp[])
 	(void)argc;	// check_args
 	var = get_args(argv, envp);
 	var.pid[0] = fork();
+	if (var.pid[0] < 0)
+		return (2);
 	if (var.pid[0] == 0)
 	{
 		if (pipe(var.end) == -1)
