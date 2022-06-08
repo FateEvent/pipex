@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 09:41:20 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/07 21:54:21 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/08 09:20:09 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,6 @@ void	ft_arr_freer(char **arr)
 		i++;
 	}
 	free(arr);
-}
-
-void	ft_putstr_fd(char *str, int fd)
-{
-	if (fd >= 0 && str)
-	{
-		while (*str)
-		{
-			write(fd, &*str, 1);
-			str++;
-		}
-	}
 }
 
 size_t	ft_strlen(const char *str)

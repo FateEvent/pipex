@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 21:43:57 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/07 23:34:00 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/08 09:05:35 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,34 +25,13 @@ void	parent_process(t_var var)
 	exit(EXIT_FAILURE);
 }
 
-/*
-void	parent_process(t_var var)
-{
-	char	*buff;
-
-	waitpid(var.pid, NULL, 0);
-	buff = malloc(501);
-	read(var.end[0], buff, 500);
-	close(var.end[1]);
-	ft_printf("%s\n", buff);
-	close(var.end[0]);
-	free(buff);
-}
-*/
 void	child_process(t_var var)
 {
 	close(var.end[0]);
 	dup2(var.end[1], STDOUT_FILENO);
 	dup2(var.fd[0], STDIN_FILENO);
 	close(var.fd[0]);
-
-//	write(var.end[1], var.buffer, 15);
-
 	close(var.end[1]);
-
-//	var.cmd_args1[1] = "bibbidibobnbidi\nmagiki\noh";
-//	var.cmd_args1[2] = NULL;
-
 	execve(var.cmd1, var.cmd_args1, NULL);
 	exit(EXIT_FAILURE);
 }
