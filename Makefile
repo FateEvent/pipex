@@ -6,12 +6,12 @@
 #    By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/06 18:24:32 by faventur          #+#    #+#              #
-#    Updated: 2022/06/08 09:24:03 by faventur         ###   ########.fr        #
+#    Updated: 2022/06/08 09:33:01 by faventur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = main.c ft_split.c ft_strjoin.c ft_puterror.c libftools.c \
-	ft_path_searcher.c
+SRCS = main.c ft_split.c ft_strjoin.c ft_puterror.c ft_path_searcher.c \
+	libftools.c utils.c
 
 OBJS = $(addprefix srcs/, ${SRCS:.c=.o})
 
