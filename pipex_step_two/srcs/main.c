@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 21:43:57 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/09 12:14:44 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/09 13:15:12 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_var	get_args(char ac, char *av[])
 int	main(int ac, char *av[], char *env[])
 {
 	t_var	var;
-	pid_t	pid;
 	int		i;
 
 	if (ac < 5)
@@ -39,13 +38,9 @@ int	main(int ac, char *av[], char *env[])
 	close(var.fd[0]);
 	dup2(var.fd[1], STDOUT_FILENO);
 	close(var.fd[1]);
-	pid = fork();
-	if (pid < 0)
-		ft_puterror("Error: Failed to create the fork.");
-	if (pid == 0)
-		pipex(av[2], env, var.fd[0]);
+	pipex(av[2], env, var.fd[0]);
 	while (i < ac - 2)
 		pipex(av[i++], env, 1);
-	waitpid(-1, &var.status, 0);
+	ft_exec(av[i], env);
 	return (0);
 }

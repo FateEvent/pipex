@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:17:19 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/09 12:15:03 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/09 13:16:02 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@
 
 typedef struct s_var
 {
-	int	fd[2];
-	int	end[2];
-	int	status;
+	pid_t	pid;
+	int		fd[2];
+	int		end[2];
+	int		status;
 }			t_var;
 
 size_t	ft_strlen(const char *str);
@@ -39,5 +40,6 @@ char	*ft_path_searcher(char *cmd, char *envp[]);
 
 t_var	get_args(char ac, char *av[]);
 void	pipex(char *cmd, char *env[], int fdin);
+void	ft_exec(char *cmd, char *env[]);
 
 #endif
