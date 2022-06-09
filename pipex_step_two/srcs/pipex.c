@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:18:24 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/09 13:16:56 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/09 14:01:16 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	ft_exec(char *cmd, char *env[])
 	cmd = ft_path_searcher(cmd_args[0], env);
 	if (!cmd)
 		ft_puterror("Error: Impossible to find the binary file.");
-	execve(cmd, cmd_args, NULL);
+	if (execve(cmd, cmd_args, NULL) == -1)
+		ft_puterror("Error: Couldn't be able to process your request");
 }
 
 static void	parent_process(t_var var)
