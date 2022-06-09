@@ -1,3 +1,5 @@
+# Pipex
+
 Pipex is a program allowing inputs and outputs to be redirected.
 The goal of this project is managing redirections and communication between processes, thanx notably to the implementation of the pipe() and the fork() functions. 
 
