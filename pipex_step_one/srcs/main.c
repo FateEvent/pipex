@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 21:43:57 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/09 11:42:36 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/09 13:27:10 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static void	parent_process(t_var var)
 	close(var.end[1]);
 	dup2(var.end[0], STDIN_FILENO);
 	close(var.end[0]);
-	waitpid(-1, &var.status, 0);
 	waitpid(-1, &var.status, 0);
 	execve(var.cmd2, var.cmd_args2, NULL);
 	exit(EXIT_FAILURE);
