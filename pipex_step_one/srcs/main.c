@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 21:43:57 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/09 13:27:10 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/09 13:52:23 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,24 +63,17 @@ int	main(int argc, char *argv[], char *envp[])
 	if (argc != 5)
 		ft_puterror("Error: The number of arguments is incorrect.");
 	var = get_args(argv, envp);
-	var.pid[0] = fork();
-	if (var.pid[0] < 0)
-		ft_puterror("Error: Failed to create the fork.");
-	if (var.pid[0] == 0)
+	if (pipe(var.end) == -1)
+		ft_puterror("Error: Failed to create the pipe.");
+	var.pid = fork();
+	if (var.pid < 0)
 	{
-		if (pipe(var.end) == -1)
-			ft_puterror("Error: Failed to create the pipe.");
-		var.pid[1] = fork();
-		if (var.pid[1] < 0)
-		{
-			close(var.end[0]);
-			close(var.end[1]);
-			ft_puterror("Error: Failed to create the fork.");
-		}
-		if (var.pid[1] == 0)
-			child_process(var);
-		parent_process(var);
-		waitpid(-1, &var.status, 0);
+		close(var.end[0]);
+		close(var.end[1]);
+		ft_puterror("Error: Failed to create the fork.");
 	}
+	if (var.pid == 0)
+		child_process(var);
+	parent_process(var);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:17:19 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/09 11:28:18 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/09 13:42:54 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_var
 	int		fd[2];
 	int		end[2];
 	int		status;
-	pid_t	pid[2];
+	pid_t	pid;
 	char	*cmd1;
 	char	*cmd2;
 	char	**cmd_args1;
