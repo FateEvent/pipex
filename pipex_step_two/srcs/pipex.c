@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:18:24 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/09 14:01:16 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/10 15:09:03 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	ft_exec(char *cmd, char *env[])
 	cmd = ft_path_searcher(cmd_args[0], env);
 	if (!cmd)
 		ft_puterror("Error: Impossible to find the binary file.");
-	if (execve(cmd, cmd_args, NULL) == -1)
-		ft_puterror("Error: Couldn't be able to process your request");
+	if (execve(cmd, cmd_args, NULL))
+		ft_printerror("pipex", cmd);
 }
 
 static void	parent_process(t_var var)
@@ -48,13 +48,13 @@ void	pipex(char *cmd, char *env[], int fdin)
 	t_var	var;
 
 	if (pipe(var.end) == -1)
-		ft_puterror("Error: Failed to create the pipe.");
+		ft_printerror("pipex", cmd);
 	var.pid = fork();
 	if (var.pid < 0)
 	{
 		close(var.end[0]);
 		close(var.end[1]);
-		ft_puterror("Error: Failed to create the fork.");
+		ft_printerror("pipex", cmd);
 	}
 	if (var.pid == 0)
 		child_process(var, cmd, env, fdin);

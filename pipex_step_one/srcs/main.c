@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 21:43:57 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/09 14:03:03 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/10 17:26:12 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_var	get_args(char *av[], char *envp[])
 	if (var.fd[0] < 0)
 		ft_puterror("Error: Impossible to open the file.");
 	var.fd[1] = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (var.fd[0] < 0)
+	if (var.fd[1] < 0)
 		ft_puterror("Error: Impossible to open the file.");
 	var.cmd_args1 = ft_split(av[2], ' ');
 	var.cmd1 = ft_path_searcher(var.cmd_args1[0], envp);
