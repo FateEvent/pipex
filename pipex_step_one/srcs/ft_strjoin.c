@@ -6,11 +6,11 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 10:49:11 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/06 17:56:18 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/10 11:59:09 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "pipex.h"
 
 static char	*ft_strcat(char *dest, const char *src)
 {

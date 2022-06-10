@@ -6,11 +6,11 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 09:41:20 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/08 09:20:09 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/10 12:16:43 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "pipex.h"
 
 void	ft_arr_freer(char **arr)
 {
@@ -38,28 +38,41 @@ size_t	ft_strlen(const char *str)
 	return (counter);
 }
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+char	*ft_strchr(const char *str, int c)
 {
+	while (*str != (char)c)
+	{
+		if (!*str)
+			return (NULL);
+		str++;
+	}
+	return ((char *)str);
+}
+
+int	ft_strstrbool(const char *haystack, const char *needle)
+{
+	size_t	str_len;
+	size_t	tofind_len;
 	size_t	i;
 	size_t	j;
 
+	str_len = ft_strlen(haystack);
+	tofind_len = ft_strlen(needle);
 	i = 0;
-	if (len == 0 && !needle[0])
-		return ((char *)haystack);
-	if (ft_strlen(haystack) < ft_strlen(needle) || len < ft_strlen(needle))
-		return (NULL);
-	while (i <= ft_strlen(haystack) - ft_strlen(needle) && i < len)
+	if (str_len < tofind_len)
+		return (1);
+	while (i <= str_len - tofind_len)
 	{
 		j = 0;
-		while (j < ft_strlen(needle) && i + j < len)
+		while (j < tofind_len)
 		{
 			if (*(char *)(haystack + i + j) != *(char *)(needle + j))
 				break ;
 			j++;
 		}
-		if (j == ft_strlen(needle))
-			return (&*(char *)(haystack + i));
+		if (j == tofind_len)
+			return (0);
 		i++;
 	}
-	return (NULL);
+	return (1);
 }

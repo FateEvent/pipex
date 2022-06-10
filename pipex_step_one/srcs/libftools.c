@@ -6,11 +6,11 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 09:41:20 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/08 09:20:09 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/10 11:59:15 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "pipex.h"
 
 void	ft_arr_freer(char **arr)
 {

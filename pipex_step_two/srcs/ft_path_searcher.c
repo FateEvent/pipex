@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 17:20:03 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/08 09:43:57 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/10 12:13:52 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*ft_find(char *envp[], char *str)
 	env_path = NULL;
 	while (envp[i])
 	{
-		if (ft_strnstr(envp[i], str, 4))
+		if (!ft_strstrbool(envp[i], str))
 		{
 			env_path = envp[i] + 5;
 			break ;
