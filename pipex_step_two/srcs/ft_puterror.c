@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 14:07:30 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/10 15:15:46 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/16 15:12:44 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,6 @@ void	ft_puterror(const char *str)
 
 void	ft_printerror(char *program, char *pathname)
 {
-	ft_printf_fd(2, "%s: %s: %s\n", program, pathname, strerror(errno));
+	ft_fprintf(2, "%s: %s: %s\n", program, pathname, strerror(errno));
 	exit(1);
 }

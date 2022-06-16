@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:53:59 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/10 18:22:13 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/16 15:12:57 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_var	hd_managing(int ac, char *av[])
 	temp[0] = '\0';
 	while (ft_strstrbool(temp, av[2]))
 	{
-		ft_printf_fd(1, "heredoc> ");
+		ft_fprintf(1, "heredoc> ");
 		buffer = get_next_line(0);
 		buffer[ft_strlen(buffer)] = '\0';
 		temp = ft_strjoin(temp, buffer);

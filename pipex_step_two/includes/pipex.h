@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:17:19 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/10 16:43:02 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/16 15:12:23 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <string.h>
 # include <errno.h>
 # include <stdio.h>
-# include <ft_printf_fd.h>
+# include <ft_fprintf.h>
 # include <get_next_line.h>
 
 typedef struct s_var

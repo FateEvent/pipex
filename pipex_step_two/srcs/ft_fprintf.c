@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_fd.c                                     :+:      :+:    :+:   */
+/*   ft_fprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:00:26 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/10 12:53:26 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/16 15:10:32 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf_fd.h"
+#include "ft_fprintf.h"
 
 int	ft_check(va_list arg_p, t_tools var, const char *format, int i)
 {
@@ -37,7 +37,7 @@ int	ft_check(va_list arg_p, t_tools var, const char *format, int i)
 	return (*var.n_char);
 }
 
-int	ft_printf_fd(int fd, const char *format, ...)
+int	ft_fprintf(int fd, const char *format, ...)
 {
 	va_list	arg_p;
 	t_tools	var;
