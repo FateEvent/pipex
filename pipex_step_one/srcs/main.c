@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 21:43:57 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/10 17:26:12 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/22 16:21:39 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	parent_process(t_var var)
 	close(var.end[0]);
 	waitpid(-1, &var.status, 0);
 	execve(var.cmd2, var.cmd_args2, NULL);
-	ft_puterror("Error: Couldn't be able to process your request");
+	ft_puterror("Error: Couldn't be able to process your request.");
 }
 
 static void	child_process(t_var var)
@@ -32,7 +32,7 @@ static void	child_process(t_var var)
 	dup2(var.end[1], STDOUT_FILENO);
 	close(var.end[1]);
 	execve(var.cmd1, var.cmd_args1, NULL);
-	ft_puterror("Error: Couldn't be able to process your request");
+	ft_puterror("Error: Couldn't be able to process your request.");
 }
 
 t_var	get_args(char *av[], char *envp[])
