@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 21:43:57 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/22 16:21:39 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/23 19:10:48 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 
 static void	parent_process(t_var var)
 {
+	waitpid(-1, &var.status, 0);
+	close(var.fd[1]);
+	var.fd[1] = open(var.av[4], O_WRONLY | O_TRUNC, 0644);
+	if (var.fd[1] < 0)
+		ft_puterror("Error: Impossible to open the file.");
 	dup2(var.fd[1], STDOUT_FILENO);
 	close(var.fd[1]);
 	close(var.end[1]);
 	dup2(var.end[0], STDIN_FILENO);
 	close(var.end[0]);
-	waitpid(-1, &var.status, 0);
 	execve(var.cmd2, var.cmd_args2, NULL);
 	ft_puterror("Error: Couldn't be able to process your request.");
 }
@@ -42,7 +46,7 @@ t_var	get_args(char *av[], char *envp[])
 	var.fd[0] = open(av[1], O_RDONLY);
 	if (var.fd[0] < 0)
 		ft_puterror("Error: Impossible to open the file.");
-	var.fd[1] = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	var.fd[1] = open(av[4], O_WRONLY | O_CREAT, 0644);
 	if (var.fd[1] < 0)
 		ft_puterror("Error: Impossible to open the file.");
 	var.cmd_args1 = ft_split(av[2], ' ');
@@ -53,6 +57,7 @@ t_var	get_args(char *av[], char *envp[])
 	var.cmd2 = ft_path_searcher(var.cmd_args2[0], envp);
 	if (!var.cmd2)
 		ft_puterror("Error: Impossible to find the binary file.");
+	var.av = av;
 	return (var);
 }
 

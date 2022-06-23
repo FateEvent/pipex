@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:17:19 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/16 15:12:23 by faventur         ###   ########.fr       */
+/*   Updated: 2022/06/23 19:18:50 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef struct s_var
 	int		fd[2];
 	int		end[2];
 	int		status;
+	int		ac;
+	char	**av;
 }			t_var;
 
 void	ft_arr_freer(char **arr);
