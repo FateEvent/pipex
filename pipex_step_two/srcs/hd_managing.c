@@ -6,11 +6,28 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:53:59 by faventur          #+#    #+#             */
-/*   Updated: 2022/07/20 15:18:54 by faventur         ###   ########.fr       */
+/*   Updated: 2022/07/20 15:31:36 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+static void	ft_hd_performer(char *av[], t_hd *hd)
+{
+	ft_fprintf(1, "heredoc> ");
+	hd->buffer = get_next_line(0);
+	hd->cmp = ft_strncmp(hd->buffer, av[2], ft_strlen(hd->buffer) - 1);
+	hd->temp = ft_strjoin(hd->temp, hd->buffer);
+	free(hd->buffer);
+	while (hd->cmp && hd->buffer)
+	{
+		ft_fprintf(1, "heredoc> ");
+		hd->buffer = get_next_line(0);
+		hd->cmp = ft_strncmp(hd->buffer, av[2], ft_strlen(hd->buffer) - 1);
+		hd->temp = ft_strjoin(hd->temp, hd->buffer);
+		free(hd->buffer);
+	}
+}
 
 static int	ope_and_write(char **arr, char *av[])
 {
@@ -39,17 +56,7 @@ t_var	hd_managing(int ac, char *av[])
 
 	hd.temp = malloc(sizeof(char) * 1);
 	hd.temp[0] = '\0';
-	ft_fprintf(1, "heredoc> ");
-	hd.buffer = get_next_line(0);
-	hd.cmp = ft_strncmp(hd.buffer, av[2], ft_strlen(hd.buffer) - 1);
-	while (hd.cmp && hd.buffer)
-	{
-		hd.temp = ft_strjoin(hd.temp, hd.buffer);
-		free(hd.buffer);
-		ft_fprintf(1, "heredoc> ");
-		hd.buffer = get_next_line(0);
-		hd.cmp = ft_strncmp(hd.buffer, av[2], ft_strlen(hd.buffer) - 1);
-	}
+	ft_hd_performer(av, &hd);
 	hd.arr = ft_split(hd.temp, '\n');
 	var.fd[0] = ope_and_write(hd.arr, av);
 	var.fd[0] = open("temporary.txt", O_RDONLY);
