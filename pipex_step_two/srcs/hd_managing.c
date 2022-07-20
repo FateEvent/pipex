@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:53:59 by faventur          #+#    #+#             */
-/*   Updated: 2022/07/20 14:59:26 by faventur         ###   ########.fr       */
+/*   Updated: 2022/07/20 15:06:00 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static int	ope_and_write(char **arr, char *av[])
 	int	i;
 
 	i = 0;
+	if (!arr || !*arr)
+		return (-1);
 	fd = open("temporary.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		ft_printerror("pipex", "temporary.txt");
@@ -40,7 +42,9 @@ t_var	hd_managing(int ac, char *av[])
 	hd.temp = malloc(sizeof(char) * 1);
 	hd.temp[0] = '\0';
 	hd.cmp = 1;
-	while (hd.cmp)
+	ft_fprintf(1, "heredoc> ");
+	hd.buffer = get_next_line(0);
+	while (hd.cmp && hd.buffer)
 	{
 		ft_fprintf(1, "heredoc> ");
 		hd.buffer = get_next_line(0);
