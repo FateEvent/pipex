@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 21:43:57 by faventur          #+#    #+#             */
-/*   Updated: 2022/07/20 12:06:09 by faventur         ###   ########.fr       */
+/*   Updated: 2022/07/20 14:53:20 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int ac, char *av[], char *env[])
 
 	if (ac < 5)
 		ft_puterror("Error: The number of arguments is incorrect.");
-	if (!ft_strcmp(av[1], "here_doc"))
+	if (!ft_strncmp(av[1], "here_doc", ft_strlen("here_doc")))
 	{
 		var = hd_managing(ac, av);
 		i = 3;
