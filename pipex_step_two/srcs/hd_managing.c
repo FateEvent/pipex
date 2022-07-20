@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:53:59 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/16 15:12:57 by faventur         ###   ########.fr       */
+/*   Updated: 2022/07/20 11:20:17 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	ope_and_write(char **arr, char *av[])
 	fd = open("temporary.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		ft_printerror("pipex", "temporary.txt");
-	while (ft_strstrbool(arr[i], av[2]))
+	while (ft_strcmp(arr[i], av[2]))
 	{
 		write(fd, arr[i], ft_strlen(arr[i]));
 		write(fd, "\n", 1);
