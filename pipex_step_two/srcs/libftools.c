@@ -6,7 +6,7 @@
 /*   By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 09:41:20 by faventur          #+#    #+#             */
-/*   Updated: 2022/06/10 12:16:43 by faventur         ###   ########.fr       */
+/*   Updated: 2022/07/20 14:35:46 by faventur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ size_t	ft_strlen(const char *str)
 {
 	size_t	counter;
 
+	if (!str)
+		return (0);
 	counter = 0;
 	while (*str != '\0')
 	{
@@ -49,30 +51,45 @@ char	*ft_strchr(const char *str, int c)
 	return ((char *)str);
 }
 
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	if (!s1 || !s2)
+		return (-3000);
+	i = 0;
+	if (n <= 0)
+		return (0);
+	while (((unsigned char *)s1)[i] == ((unsigned char *)s2)[i] && i < n - 1
+		&& ((unsigned char *)s1)[i] != '\0' && ((unsigned char *)s2)[i] != '\0')
+		i++;
+	return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
+}
+
 int	ft_strstrbool(const char *haystack, const char *needle)
 {
-	size_t	str_len;
-	size_t	tofind_len;
-	size_t	i;
-	size_t	j;
+	t_cmp	var;
 
-	str_len = ft_strlen(haystack);
-	tofind_len = ft_strlen(needle);
-	i = 0;
-	if (str_len < tofind_len)
+	if (!haystack || !needle)
+		return (0);
+	var.str_len = ft_strlen(haystack);
+	var.tofind_len = ft_strlen(needle);
+	var.i = 0;
+	if (var.str_len < var.tofind_len)
 		return (1);
-	while (i <= str_len - tofind_len)
+	while (var.i <= var.str_len - var.tofind_len)
 	{
-		j = 0;
-		while (j < tofind_len)
+		var.j = 0;
+		while (var.j < var.tofind_len)
 		{
-			if (*(char *)(haystack + i + j) != *(char *)(needle + j))
+			if (*(char *)(haystack + var.i + var.j)
+				!= *(char *)(needle + var.j))
 				break ;
-			j++;
+			var.j++;
 		}
-		if (j == tofind_len)
+		if (var.j == var.tofind_len)
 			return (0);
-		i++;
+		var.i++;
 	}
 	return (1);
 }
