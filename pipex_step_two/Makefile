@@ -6,7 +6,7 @@
 #    By: faventur <faventur@student.42mulhouse.fr>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/06 18:24:32 by faventur          #+#    #+#              #
-#    Updated: 2022/07/20 11:58:41 by faventur         ###   ########.fr        #
+#    Updated: 2022/07/20 18:24:24 by faventur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRCS = main.c ft_split.c ft_strjoin.c ft_puterror.c ft_path_searcher.c \
 
 OBJS = $(addprefix srcs/, ${SRCS:.c=.o})
 
-FLAGS = -g3 -Wall -Wextra -Werror -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
+FLAGS = -Wall -Wextra -Werror
 
 RM = rm -f
 
@@ -35,7 +35,6 @@ $(NAME): $(OBJS)
 	@gcc $(FLAGS) $(OBJS) -o $(NAME)
 	@echo "$(HIBLUE)Philosopher, c'est apprendre à mourir.$(NONE)"
 	@echo "Montaigne, $(CURSIVE)Les Essais$(NONE)"
-	@rm $(OBJS)
 
 .c.o:
 	gcc $(FLAGS) -c -I./includes $< -o ${<:.c=.o}
